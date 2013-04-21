@@ -7,21 +7,25 @@
 #
 ###########################################
 
+
+###########################################
+# Initialize environment
+###########################################
+class init {
+  exec { 'apt-get updatec':
+    command => '/usr/bin/apt-get update'
+  }
+}
+
 ###########################################
 # PHP installation & base php extensions
 ###########################################
 class php {
 
-  exec { 'apt-get updatec':
-    command => '/usr/bin/apt-get update'
-  }
-
-
   # Installs PHP and restart Apache
   package { ['php5', 'php-apc','libapache2-mod-php5']:
     ensure  => installed,
     notify  => Service['apache2'],
-    require => [Package['mysql-client'], Package['apache2']],
   }
 }
 
@@ -43,30 +47,22 @@ class util {
 # Basic apache installation & VHOST setup 
 # using vhost file in vagrant-dev/conf
 ###########################################
-class vhost {
+class vhostsetup {
 
-  # Ensures Apache2 is installed
-  package { 'apache2':
-    name => 'apache2',
-    ensure => installed,
+   apache::vhost { 'default':
+      docroot             => '/vagrant/www',
+      server_name         => 'lampdev',
+      server_admin        => ' webmaster@locahost',
+      docroot_create      => true,
+      priority            => '',
+      template            => 'apache/virtualhost/vhost.conf.erb',
   }
- 
-  # Ensures the Apache service is running
-  service { 'apache2':
-    ensure  => running,
-    require => Package['apache2'],
-  }
-
-  # Setup the virtual host
-  file { '/etc/apache2/sites-enabled/site.conf':
-    source  => '/vagrant/conf/vhost',
-    notify  => Service['apache2'],
-    require => Package['apache2'],
-  }
+    
 }
 
+include init
 include apache
 include mysql
 include php
-include vhost
+include vhostsetup
 include util
