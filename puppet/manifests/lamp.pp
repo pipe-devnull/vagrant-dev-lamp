@@ -23,11 +23,40 @@ class init {
 class php {
 
   # Installs PHP and restart Apache
-  package { ['php5', 'php-apc','libapache2-mod-php5']:
+  package { ['php5', 'php-apc','libapache2-mod-php5', 'php5-xdebug']:
     ensure  => installed,
     notify  => Service['apache2'],
   }
+
+  # Installs PEAR add QA channel and XHPROF
+  # install phpunit and xhprof
+  package { ['php-pear']:
+    ensure  => installed,
+    notify  => Service['apache2'],
+  }
+
 }
+
+###########################################
+# Install common php tooling
+# using phpqatools pear channel
+###########################################
+class php_tools {
+  
+  $pear_command="pear -d preferred_state=${preferred_state} install"
+
+  # Set auto discover to true
+  exec { 'add QA channel':
+    command => 'pear config-set auto_discover 1'
+  }
+
+  # install!
+  exec { 'add QA channel':
+    command => 'pear install pear.phpqatools.org/phpqatools'
+  }
+
+}
+
 
 ###########################################
 # Some basic utils I like having available 
@@ -66,3 +95,4 @@ include mysql
 include php
 include vhostsetup
 include util
+include php_tools
