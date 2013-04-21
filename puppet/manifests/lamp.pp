@@ -28,7 +28,7 @@ class php {
 ###########################################
 # Some basic utils I like having available 
 ###########################################
-class Util {
+class util {
   
   package { "curl":
     ensure  => present,
@@ -41,7 +41,7 @@ class Util {
 
 ###########################################
 # Basic apache installation & VHOST setup 
-  using vhost file in vagrant-dev/conf
+# using vhost file in vagrant-dev/conf
 ###########################################
 class vhost {
 
@@ -63,6 +63,7 @@ class vhost {
     notify  => Service['apache2'],
     require => Package['apache2'],
   }
+}
 
 include apache
 include mysql
