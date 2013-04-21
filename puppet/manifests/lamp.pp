@@ -42,17 +42,16 @@ class php {
 # using phpqatools pear channel
 ###########################################
 class php_tools {
-  
-  $pear_command="pear -d preferred_state=${preferred_state} install"
 
   # Set auto discover to true
-  exec { 'add QA channel':
-    command => 'pear config-set auto_discover 1'
+  exec { 'set_auto_discovery':
+    command => '/usr/bin/pear config-set auto_discover 1',
   }
 
   # install!
-  exec { 'add QA channel':
-    command => 'pear install pear.phpqatools.org/phpqatools'
+  exec { 'install_phpqatools':
+    command => '/usr/bin/pear install pear.phpqatools.org/phpqatools',
+    require => exec['set_auto_discovery'],
   }
 
 }
