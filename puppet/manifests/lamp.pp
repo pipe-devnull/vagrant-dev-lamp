@@ -35,12 +35,17 @@ class php {
     notify  => Service['apache2'],
   }
 
+  file { '/etc/php5/conf.d/xdebug.ini':
+    source => '/vagrant/conf/xdebug.ini',
+    notify  => Service['apache2'],
+  }
+  
 }
 
 ###########################################
 # Install common php tooling
 # using phpqatools pear channel
-###########################################
+##################################### ######
 class php_tools {
 
   # Set auto discover to true
@@ -61,7 +66,7 @@ class php_tools {
 # Some basic utils I like having available 
 ###########################################
 class util {
-  
+
   package { "curl":
     ensure  => present,
   }
@@ -69,6 +74,7 @@ class util {
   package { "vim":
     ensure  => present,
   }
+
 }
 
 ###########################################
@@ -80,12 +86,12 @@ class vhostsetup {
    apache::vhost { 'default':
       docroot             => '/vagrant/www',
       server_name         => 'lampdev',
-      server_admin        => ' webmaster@locahost',
+      server_admin        => 'webmaster@locahost',
       docroot_create      => true,
       priority            => '',
       template            => 'apache/virtualhost/vhost.conf.erb',
   }
-    
+
 }
 
 include init
