@@ -38,10 +38,8 @@ Base LAMP (PHP) stack with vagrant that includes remote debugging, profiling wit
 __Pre-requisites:__  
 __1.__ Install Virtualbox  
 __2.__ Install vagrant  
-__3.__ Install vagrant base box
 
-    # You can use an alternative base box if you wish
-    vagrant box add precise64 http://files.vagrantup.com/precise64.box
+You can use an alternative base box if you wish otherwise it will default to Ubuntu precise64 
 
 Then ...
     
