@@ -1,0 +1,10 @@
+NameVirtualHost *:8000
+Listen 8000
+
+<VirtualHost *:8000>
+    ServerAdmin webmaster@locahost
+    DocumentRoot /var/xhprof
+    ServerName xhprof
+    ErrorLog  /var/log/apache2/xhprof-error_log
+    CustomLog /var/log/apache2/xhprof-access_log common
+</VirtualHost>
