@@ -169,7 +169,7 @@ class util {
 ###########################################
 class vhostsetup {
 
-   apache::vhost { '000-default':
+   apache::vhost { 'default':
       docroot             => '/vagrant/www',
       server_name         => 'lampdev',
       server_admin        => 'webmaster@locahost',
